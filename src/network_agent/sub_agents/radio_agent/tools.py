@@ -27,7 +27,7 @@ def send_sql_command(sql_query: str):
             result = connection.execute(text(sql_query))
 
             if result.returns_rows:
-                rows = [dict(row) for row in result.fetchall()]
+                rows = [dict(row) for row in result.mappings().all()]
                 return SQLCommandResult.success(rows=rows)
     except SQLAlchemyError as e:
         return SQLCommandResult.failure(str(e))
