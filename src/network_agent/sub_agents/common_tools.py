@@ -1,4 +1,4 @@
-"""Tools for radio_agent"""
+"""Tools for all sub-agents"""
 
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
