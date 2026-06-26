@@ -1,4 +1,4 @@
-"""Tools for radio_agent"""
+"""Tools for all sub-agents"""
 
 from logging import getLogger
 

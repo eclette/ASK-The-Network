@@ -4,7 +4,7 @@ from google.adk.agents import LlmAgent
 from google.adk.tools.skill_toolset import SkillToolset
 from google.adk.skills import load_skill_from_dir
 
-from src.network_agent.sub_agents.radio_agent.tools import send_sql_command
+from src.network_agent.sub_agents.common_tools import send_sql_command
 
 from src.core.settings import settings
 from src.network_agent.sub_agents.radio_agent.prompt import RADIO_INSTRUCTIONS
