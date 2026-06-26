@@ -5,8 +5,12 @@ __pycache__/
 # virtual environment
 .venv/
 
+# logs
+logs/
+
 # environment variables
 .env
 
 #db
 sessions.db
+
