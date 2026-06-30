@@ -1,8 +1,9 @@
 """Tools for planning agent"""
-import ipaddress
-from typing import List
 
-def calculate_free_ips(number_of_addresses:int, subnet: str, used_loopback_ips: list[str]) -> list[str]:
+import ipaddress
+
+
+def calculate_free_ips(number_of_addresses: int, subnet: str, used_loopback_ips: list[str]) -> list[str]:
     """
     Return the requested number of free IP addresses from a subnet.
 

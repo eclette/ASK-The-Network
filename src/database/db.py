@@ -34,9 +34,8 @@ from src.core.settings import settings
 
 engine = create_engine(settings.DB_URL)
 
-
 Base = declarative_base()
-Base.metadata.create_all(engine)
+
 
 
 
