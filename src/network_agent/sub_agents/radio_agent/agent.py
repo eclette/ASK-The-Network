@@ -4,6 +4,9 @@ from google.adk.agents import LlmAgent
 from google.adk.tools.skill_toolset import SkillToolset
 from google.adk.skills import load_skill_from_dir
 
+from google.adk.tools.mcp_tool.mcp_toolset import McpToolset
+from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
+
 from src.network_agent.sub_agents.common_tools import send_sql_command
 
 from src.core.settings import settings
@@ -16,6 +19,17 @@ radio_skill_toolset = SkillToolset(
     additional_tools=[]
 )
 
+mcp_toolset = McpToolset(
+    connection_params=StreamableHTTPConnectionParams(
+        url=settings.MCP_URL,
+    ),
+    tool_filter=[
+        "get_tickets_info",
+        "send_sql_command"
+    ],
+
+)
+
 radio_agent = LlmAgent(
     name="radio_agent",
     model=settings.MODEL_NAME,
@@ -23,6 +37,8 @@ radio_agent = LlmAgent(
     instruction=RADIO_INSTRUCTIONS,
     tools=[
         radio_skill_toolset,
-        send_sql_command
+        send_sql_command,
+        mcp_toolset,
+
     ],
 )

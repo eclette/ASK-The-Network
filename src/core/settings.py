@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     MODEL_NAME: str = "gemini-3-flash-preview"
     GOOGLE_API_KEY: str = ""
 
+    # MCP
+    MCP_URL: str = "http://localhost:34/mcp"
+
     MAX_ROWS: int = 20
 
 
