@@ -41,7 +41,7 @@ async def calculate_free_ips(
                 if row.get("loop_ip")
             ]
 
-    except Exception:
+    except Exception as e:
         logger.exception(e)
 
     network = ipaddress.ip_network(subnet)
