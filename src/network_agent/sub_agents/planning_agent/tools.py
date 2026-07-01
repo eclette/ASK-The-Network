@@ -2,8 +2,10 @@
 
 import ipaddress
 import json
-
+from logging import getLogger
 from google.adk.tools import ToolContext
+
+logger = getLogger(__name__)
 
 ARTIFACT_NAME = "sql_command_output.json"
 
@@ -21,6 +23,8 @@ async def calculate_free_ips(
     """
 
     # Try to load the full SQL result from the artifact.
+    logger.info("Trying to load artifact")
+
     try:
         artifact = await tool_context.load_artifact(ARTIFACT_NAME)
 
@@ -29,6 +33,8 @@ async def calculate_free_ips(
                 artifact.inline_data.data.decode("utf-8")
             )
 
+            logger.info("Artifact loaded")
+
             used_loopback_ips = [
                 row["loop_ip"]
                 for row in rows
@@ -36,8 +42,7 @@ async def calculate_free_ips(
             ]
 
     except Exception:
-        # Artifact doesn't exist -> use the tool argument.
-        pass
+        logger.exception(e)
 
     network = ipaddress.ip_network(subnet)
 
