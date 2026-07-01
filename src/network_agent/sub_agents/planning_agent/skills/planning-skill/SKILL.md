@@ -30,13 +30,16 @@ Use this skill whenever the user requests free loopback IP addresses.
 
 ### send_sql_command(sql_query: str)
 Executes a SQL query and returns a list of used loopback IP addresses from the database.
+If the result set exceeds the configured maximum size, the tool also stores the complete SQL result as an artifact.
 
 ### calculate_free_ips(
-    number_of_addresses: int,
-    subnet: str,
-    used_loopback_ips: list[str]
+    number_of_addresses,
+    subnet,
+    used_loopback_ips,
 )
-Computes available IP addresses in the given subnet and returns the requested number of free IPs.
+Calculates the requested number of free IP addresses. 
+The tool automatically loads the complete SQL result from the artifact created by `send_sql_command` 
+when one exists. Otherwise, it uses the `used_loopback_ips` returned by `send_sql_command`.
 
 ---
 
@@ -60,65 +63,50 @@ If either value is missing, ask the user.
 
 ---
 
-### 2. Compute subnet range
+### 2. Build SQL query (MySQL-compatible)
 
-Convert the CIDR subnet into:
-- `start_ip` → first IP address in the subnet
-- `end_ip` → last IP address in the subnet
+Generate a valid MySQL query that retrieves every allocated loopback IP address.
 
 Example:
-- subnet: 158.98.202.0/24
-- start_ip: 158.98.202.0
-- end_ip: 158.98.202.255
-
----
-
-### 3. Build SQL query (MySQL-compatible)
-
-Use the following query:
 
 ```sql
 SELECT loop_ip
 FROM dev_radio_data
-WHERE loop_ip IS NOT NULL
-AND INET_ATON(loop_ip)
-BETWEEN INET_ATON('<start_ip>')
-AND INET_ATON('<end_ip>');
+WHERE loop_ip IS NOT NULL;
 ```
-Replace:
-
-<start_ip> with computed start IP
-<end_ip> with computed end IP
 
 Ensure SQL is valid and safe before execution.
 
 ---
 
-### 4. Call `send_sql_command(sql_query)`. The tool returns the list of allocated loopback IP addresses in the subnet.
+### 3. Execute the query
+Call: 
+`send_sql_command(sql_query)`
+
+The tool returns the allocated loopback IP addresses.
+If the result set is large, it may also create an artifact containing the complete SQL result.
 
 ---
 
-### 5. Calculate free addresses
+### 4. Calculate free addresses
 
 Call:
 
-calculate_free_ips(
-    number_of_addresses=number_of_addresses,
-    subnet=subnet,
-    used_loopback_ips=used_loopback_ips
-)
+`calculate_free_ips(...)`
 
-where:
+using:
 
-subnet is the requested subnet
-used_loopback_ips is the result returned by send_sql_command, passed as a list 
-number_of_addresses is the number of requested addresses
+- `number_of_addresses`
+- `subnet`
+- `used_loopback_ips` returned by `send_sql_command`
 
-Do not attempt to calculate free IP addresses yourself.
+Do not inspect or load artifacts yourself. The tool handles this automatically.
+
+Do not calculate free IP addresses manually.
 
 ---
 
-### 6. Return the result
+### 5. Return the result
 
 Return the free loopback IP addresses produced by calculate_free_ips.
 
