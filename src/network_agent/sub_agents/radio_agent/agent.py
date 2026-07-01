@@ -38,7 +38,7 @@ radio_agent = LlmAgent(
     tools=[
         radio_skill_toolset,
         send_sql_command,
-        mcp_toolset,
+        # mcp_toolset,
 
     ],
 )

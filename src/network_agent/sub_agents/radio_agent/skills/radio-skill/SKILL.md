@@ -16,11 +16,6 @@ This skill is especially useful for:
 ## Tools
 * `send_sql_command(sql_query: str)`  
   Sends the SQL query to the database and returns the result.
-
-There are also MCP server tools available for getting data about tickets:
-
-* `get_tickets_info` - Retrieves information about tickets from the MCP server.
-* `send_sql_command` - Sends the SQL query to the database and returns the result.
 ---
 
 ## Database Schema
@@ -39,21 +34,6 @@ The current schema exposed to this skill includes the table below.
 | `enodeb_id` | `int` | eNodeB identifier associated with the network element. |
 | `gnodeb_id` | `int` | gNodeB identifier associated with the network element. |
 
-If the user asks for information about tickets, the skill can also access the following table:
-Ticket Number text 
-Status text 
-Creator Area text 
-Use Case text 
-Subject text 
-Priority int 
-Description text 
-Start text 
-SLA Ticket text 
-Network Element Identifier text 
-Loc Identifier text 
-Assignee Area text 
-Response Subject text 
-Response Description text
 
 ### Notes for SQL generation
 - Primary source table for this skill is ``dev_radio_data``.
